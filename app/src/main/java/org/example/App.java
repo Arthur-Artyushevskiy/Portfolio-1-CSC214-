@@ -6,6 +6,7 @@ public class App {
   }
 
   public static void main(String[] args) {
-    System.out.println(new App().getGreeting());
+    TicTacToe game = new TicTacToe('X', 'O');
+    game.run();
   }
 }
