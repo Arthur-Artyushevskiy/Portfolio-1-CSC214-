@@ -7,6 +7,6 @@ public class App {
 
   public static void main(String[] args) {
     TicTacToe game = new TicTacToe('X', 'O');
-    game.run();
+    game.gameLoop();
   }
 }

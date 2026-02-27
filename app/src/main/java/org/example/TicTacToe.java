@@ -1,8 +1,9 @@
 package org.example;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToe {
-    
+
     public char[][] matrix = {
             {' ', ' ', ' '},
             {' ', ' ', ' '},
@@ -22,6 +23,15 @@ public class TicTacToe {
     public TicTacToe(char X, char O) {
         this.X = X;
         this.O = O;
+    }
+
+    private void resetGame(){
+        for (char[] row : matrix) {
+            Arrays.fill(row, ' ');
+        }
+        xWon = false;
+        oWon = false;
+
     }
 
     // helper method to change the grid based on rules
@@ -160,7 +170,7 @@ public class TicTacToe {
         win();
     }
 
-    public void oMove() {
+    private void oMove() {
         System.out.println("Second Player (" + O + "):");
         System.out.println();
         boolean moveSuccess = false;
@@ -188,8 +198,8 @@ public class TicTacToe {
     }
 
 
-    public void run() {
-        System.out.println("Welcome to the TIC_TAC_TOE GAME!!!");
+    private void run() {
+        resetGame();
         while (!full()) {
                 if (!win()) {
                     print();
@@ -211,5 +221,28 @@ public class TicTacToe {
         result();
     }
 
+    // forces a valid string input
+    private String forceValidStrInput(String str){
+
+        while(!(str.equals("yes") || str.equals("no"))){
+            System.out.println("That is not a valid entry!");
+            str = scanner.nextLine();
+        }
+     return str;
+    }
+
+
+    public void gameLoop(){
+        System.out.println("Welcome to the TIC_TAC_TOE GAME!!!");
+        String str;
+        do{
+            run();
+            System.out.print("Would you like to play again (yes/no)?");
+            str = scanner.nextLine();
+            str = forceValidStrInput(str);
+        }while(str.equals("yes"));
+        System.out.println("Goodbye!");
+
+    }
 
 }
