@@ -2,30 +2,29 @@ package org.example;
 import java.util.Scanner;
 
 public class TicTacToe {
-    // Member variables
+    
     public char[][] matrix = {
             {' ', ' ', ' '},
             {' ', ' ', ' '},
             {' ', ' ', ' '}
     };
 
-    public char X = 'X';
-    public char O = 'O';
+    public char X;
+    public char O;
     public boolean xWon = false;
     public boolean oWon = false;
-    public boolean isNull = false; // "Null" in C++ version
     private String rowInput = "";
     private String colInput = "";
 
     private Scanner scanner = new Scanner(System.in);
 
-    // Constructor
+
     public TicTacToe(char X, char O) {
         this.X = X;
         this.O = O;
     }
 
-    // Helper method to change the grid based on rules
+    // helper method to change the grid based on rules
     public boolean ticChange(char c, String row, String col) {
         if (row.length() > 1 || col.length() > 1) {
             System.out.println("OUT OF BOUNDS!!!");
@@ -58,7 +57,7 @@ public class TicTacToe {
         return true;
     }
 
-    // Checks if one of the players won the game
+    // checks if one of the players won the game
     public boolean win() {
         if (checkHor() || checkVer() || checkDiagLeft() || checkDiagRight()) {
             return true;
@@ -66,7 +65,7 @@ public class TicTacToe {
         return false;
     }
 
-    // Helper method to check if the grid is full
+    // helper method to check if the grid is full
     public boolean full() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
