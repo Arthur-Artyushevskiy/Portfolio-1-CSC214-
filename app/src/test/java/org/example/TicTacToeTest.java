@@ -10,7 +10,6 @@ public class TicTacToeTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize a fresh game before each test
         game = new TicTacToe('X', 'O');
     }
 
