@@ -36,6 +36,13 @@ public class TicTacToe {
 
     // helper method to change the grid based on rules
     public boolean ticChange(char c, String row, String col) {
+        if(row.isEmpty() || col.isEmpty()){
+            System.out.println("NO EMPTY INPUTS");
+            return false;
+        }
+
+
+
         if (row.length() > 1 || col.length() > 1) {
             System.out.println("OUT OF BOUNDS!!!");
             return false;
