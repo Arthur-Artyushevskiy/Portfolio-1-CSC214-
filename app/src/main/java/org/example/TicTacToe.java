@@ -1,4 +1,7 @@
 package org.example;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -10,8 +13,8 @@ public class TicTacToe {
             {' ', ' ', ' '}
     };
 
-    public char X;
-    public char O;
+    public static char X;
+    public static char O;
     public boolean xWon = false;
     public boolean oWon = false;
     private String rowInput = "";
@@ -161,7 +164,7 @@ public class TicTacToe {
         }
     }
 
-    public void xMove() {
+    private void xMove() {
         System.out.println("First Player (" + X + "):");
         boolean moveSuccess = false;
         while (!moveSuccess) {
@@ -189,11 +192,13 @@ public class TicTacToe {
             System.out.println();
             moveSuccess = ticChange(O, rowInput, colInput);
         }
+        print();
+
         System.out.println();
         win();
     }
 
-    public void result() {
+    private void result() {
         System.out.print("The Result is: ");
         if (full() && !xWon && !oWon) {
             System.out.println("Tie!");
@@ -204,24 +209,55 @@ public class TicTacToe {
         }
     }
 
+    static int xWonNum;
+    static int oWonNum;
+    static int tiesNum;
+    static boolean pastXLoser = true;
+    static boolean pastOLoser = false;
 
     private void run() {
         resetGame();
+        print();
         while (!full()) {
                 if (!win()) {
-                    print();
+
                     System.out.println();
-                    if (!oWon) {
-                        xMove();
-                    } else break;
+                    if (!oWon && !xWon) {
+                        if(pastXLoser && !pastOLoser){
+                            xMove();
+                        }
+                        else if(pastOLoser && !pastXLoser) oMove();
+                    }
+                    else{
+                        break;
+                    }
 
-                    if (!win() && full()) break;
+                    if (!win() && full()){
+                      break;
+                    }
 
-                    if (!xWon) {
-                        oMove();
-                    } else break;
+                    if (!xWon && !oWon) {
+                        if(!pastOLoser && pastXLoser){
+                            oMove();
+                        }
+                        else if(!pastXLoser && pastOLoser) xMove();
+                    } else{
+                        break;
+                    }
                 } else break;
             }
+
+        if(xWon){
+            xWonNum++;
+            pastXLoser = true;
+            pastOLoser = false;
+        }
+        else if(oWon){
+            oWonNum++;
+            pastOLoser = true;
+            pastXLoser = false;
+        }
+        else tiesNum++;
 
         System.out.println();
         print();
@@ -233,9 +269,23 @@ public class TicTacToe {
 
         while(!(str.equals("yes") || str.equals("no"))){
             System.out.println("That is not a valid entry!");
+            System.out.println("Would you like to play again (yes/no)?");
             str = scanner.nextLine();
+
         }
      return str;
+    }
+
+    public static void saveGameLog(int xWonWins, int oWonWins, int ties) {
+        try (PrintWriter out = new PrintWriter(new FileWriter("game_log.txt"))) {
+            out.println("--- Tic-Tac-Toe Game Log ---");
+            out.println("Player " + X  + " Total Wins: " + xWonWins);
+            out.println("Player " + O + " Total Wins: " + oWonWins);
+            out.println("Total Tie Games: " + ties);
+            System.out.println("Log successfully saved to game_log.txt");
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving the log: " + e.getMessage());
+        }
     }
 
 
@@ -244,10 +294,23 @@ public class TicTacToe {
         String str;
         do{
             run();
+            System.out.println("The current log is:");
+            System.out.println("\n" + "Player " + X + " Wins " + xWonNum);
+            System.out.println("Player " + O + " Wins " + oWonNum);
+            System.out.println("Ties          " + tiesNum);
             System.out.print("Would you like to play again (yes/no)?");
             str = scanner.nextLine();
             str = forceValidStrInput(str);
+            if(pastXLoser) System.out.println("This time " + X + " will go first!");
+            else  System.out.println("This time " + O + " will go first!");
         }while(str.equals("yes"));
+        saveGameLog(xWonNum, oWonNum, tiesNum);
+        xWonNum =0;
+        oWonNum = 0;
+        tiesNum = 0;
+        pastXLoser = true;
+        pastOLoser = false;
+
         System.out.println("Goodbye!");
 
     }
