@@ -250,13 +250,13 @@ public class TicTacToe {
 
         if(xWon){
             xWonNum++;
-            pastXLoser = true;
-            pastOLoser = false;
+            pastXLoser = false;
+            pastOLoser = true;
         }
         else if(oWon){
             oWonNum++;
-            pastOLoser = true;
-            pastXLoser = false;
+            pastOLoser = false;
+            pastXLoser = true;
         }
         else tiesNum++;
 
