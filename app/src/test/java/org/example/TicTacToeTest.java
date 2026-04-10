@@ -8,9 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TicTacToeTest {
     private TicTacToe game;
 
+
     @BeforeEach
     void setUp() {
         game = new TicTacToe('X', 'O');
+
     }
 
     @Test

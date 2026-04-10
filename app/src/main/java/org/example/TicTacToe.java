@@ -1,9 +1,10 @@
 package org.example;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.Arrays;
 import java.util.Scanner;
+
+
+
 
 public class TicTacToe {
 
@@ -17,16 +18,23 @@ public class TicTacToe {
     public static char O;
     public boolean xWon = false;
     public boolean oWon = false;
+    public static Renderer printer;
     private String rowInput = "";
     private String colInput = "";
 
-    private Scanner scanner = new Scanner(System.in);
+
+    private final Scanner scanner = new Scanner(System.in);
 
 
     public TicTacToe(char X, char O) {
-        this.X = X;
-        this.O = O;
+        TicTacToe.X = X;
+        TicTacToe.O = O;
+        TicTacToe.printer = new Renderer();
     }
+
+
+
+
 
     private void resetGame(){
         for (char[] row : matrix) {
@@ -77,12 +85,10 @@ public class TicTacToe {
         return true;
     }
 
+
     // checks if one of the players won the game
     public boolean win() {
-        if (checkHor() || checkVer() || checkDiagLeft() || checkDiagRight()) {
-            return true;
-        }
-        return false;
+        return checkHor() || checkVer() || checkDiagLeft() || checkDiagRight();
     }
 
     // helper method to check if the grid is full
@@ -153,16 +159,6 @@ public class TicTacToe {
         return false;
     }
 
-    public void print() {
-        System.out.println("   1     2     3");
-        for (int row = 0; row < 3; row++) {
-            System.out.print(row + 1);
-            for (int col = 0; col < 3; col++) {
-                System.out.print("| " + matrix[row][col] + " |" + " ");
-            }
-            System.out.println();
-        }
-    }
 
     private void xMove() {
         System.out.println("First Player (" + X + "):");
@@ -175,12 +171,14 @@ public class TicTacToe {
             System.out.println();
             moveSuccess = ticChange(X, rowInput, colInput);
         }
-        print();
+
+        printer.print(matrix);
         System.out.println();
         win();
     }
 
     private void oMove() {
+
         System.out.println("Second Player (" + O + "):");
         System.out.println();
         boolean moveSuccess = false;
@@ -192,7 +190,8 @@ public class TicTacToe {
             System.out.println();
             moveSuccess = ticChange(O, rowInput, colInput);
         }
-        print();
+
+        printer.print(matrix);
 
         System.out.println();
         win();
@@ -216,10 +215,12 @@ public class TicTacToe {
     static boolean pastOLoser = false;
 
     private void run() {
+
         resetGame();
-        print();
+        printer.print(matrix);
         while (!full()) {
                 if (!win()) {
+
 
                     System.out.println();
                     if (!oWon && !xWon) {
@@ -260,7 +261,7 @@ public class TicTacToe {
         else tiesNum++;
 
         System.out.println();
-        print();
+        printer.print(matrix);
         result();
     }
 
@@ -276,20 +277,10 @@ public class TicTacToe {
      return str;
     }
 
-    public static void saveGameLog(int xWonWins, int oWonWins, int ties) {
-        try (PrintWriter out = new PrintWriter(new FileWriter("game_log.txt"))) {
-            out.println("--- Tic-Tac-Toe Game Log ---");
-            out.println("Player " + X  + " Total Wins: " + xWonWins);
-            out.println("Player " + O + " Total Wins: " + oWonWins);
-            out.println("Total Tie Games: " + ties);
-            System.out.println("Log successfully saved to game_log.txt");
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving the log: " + e.getMessage());
-        }
-    }
 
 
     public void gameLoop(){
+
         System.out.println("Welcome to the TIC_TAC_TOE GAME!!!");
         String str;
         do{
@@ -304,7 +295,8 @@ public class TicTacToe {
             if(pastXLoser) System.out.println("This time " + X + " will go first!");
             else  System.out.println("This time " + O + " will go first!");
         }while(str.equals("yes"));
-        saveGameLog(xWonNum, oWonNum, tiesNum);
+        SaveGame saveGame = new SaveGame();
+        saveGame.saveGameLog(xWonNum, oWonNum, tiesNum, X, O);
         xWonNum =0;
         oWonNum = 0;
         tiesNum = 0;
