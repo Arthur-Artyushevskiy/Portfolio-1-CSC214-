@@ -1,4 +1,4 @@
 --- Tic-Tac-Toe Game Log ---
 Player X Total Wins: 0
-Player O Total Wins: 1
+Player O Total Wins: 0
 Total Tie Games: 0
