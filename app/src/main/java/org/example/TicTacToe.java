@@ -301,6 +301,9 @@ public class TicTacToe {
 
         }
 
+        if(xWon){xWonNum++;}
+        else if(oWon){oWonNum++;}
+        else tiesNum++;
 
         System.out.println();
         printer.print(matrix);
@@ -342,6 +345,9 @@ public class TicTacToe {
 
         }
 
+        if(xWon){xWonNum++;}
+        else if(oWon){oWonNum++;}
+        else tiesNum++;
 
         System.out.println();
         printer.print(matrix);
@@ -402,7 +408,7 @@ public class TicTacToe {
             run_Human_vs_AI();
             System.out.println("The current log is:");
             System.out.println("\n" + "Player " + X + " Wins " + xWonNum);
-            System.out.println("AI " + O + " Wins " + oWonNum);
+            System.out.println("AI       Wins " + oWonNum);
             System.out.println("Ties          " + tiesNum);
             System.out.print("Would you like to play again (yes/no)?");
 
